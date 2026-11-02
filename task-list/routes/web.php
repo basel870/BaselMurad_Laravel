@@ -32,6 +32,8 @@ Route::post('/about', function() {
     return view('about', compact('name', 'departments'));
 });
 
+// Add to DataBase
+
 Route::get('/tasks', function() {
     $tasks = DB::table('tasks')->get();
     return view('tasks', compact('tasks'));
