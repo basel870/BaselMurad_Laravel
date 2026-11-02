@@ -1,12 +1,13 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\DB;
 
-Route::get('/', function () {
+Route::get('/', function() {
     return view('welcome');
 });
 
-Route::get('/about', function (){
+Route::get('/about', function() {
     $name = 'Basel';
     $departments = [
         '1' => 'Technical',
@@ -21,7 +22,7 @@ Route::get('/about', function (){
     return view('about', compact('name', 'departments'));
 });
 
-Route::post('/about', function () {
+Route::post('/about', function() {
     $name = $_POST['name'];
     $departments = [
         '1' => 'Technical',
@@ -29,4 +30,15 @@ Route::post('/about', function () {
         '3' => 'Sales',
     ];
     return view('about', compact('name', 'departments'));
+});
+
+Route::get('/tasks', function() {
+    $tasks = DB::table('tasks')->get();
+    return view('tasks', compact('tasks'));
+});
+
+Route::post('/create', function() {
+    $task_name = $_POST['name'];
+    DB::table('tasks')->insert(['name' => $task_name]);
+    return redirect()->back();
 });
