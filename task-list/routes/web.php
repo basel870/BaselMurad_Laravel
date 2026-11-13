@@ -44,3 +44,26 @@ Route::post('/create', function() {
     DB::table('tasks')->insert(['name' => $task_name]);
     return redirect()->back();
 });
+
+// Delete from DataBase
+
+Route::post('/delete/{id}', function($id) {
+    DB::table('tasks')->where('id', $id)->delete();
+    return redirect()->back();
+});
+
+// Edit from DataBase
+
+Route::post('/edit/{id}', function($id) {
+    $task = DB::table('tasks')->where('id', $id)->first();
+    $tasks = DB::table('tasks')->get();
+    return view('tasks', compact('task', 'tasks'));
+});
+
+// Update from DataBase
+
+Route::post('/update', function() {
+    $id = $_POST['id'];
+    DB::table('tasks')->where('id', '=', $id)->update(['name' => $_POST['name']]);
+    return redirect('tasks');
+});
